@@ -15,3 +15,5 @@ So I came out with an Outside-In incremental test journey.
 2. I tried to solve the kata on the [google doc](https://docs.google.com/document/d/11Mh0Tmrf5hZ7EE7cDF0q9Pqr-4i5x4bs_3K3jdR2eA8/edit?usp=sharing) without any IDE help. I only used a google doc plugin to improve the code highlight. The plugin is CodeBlocks.
 3. I created a node-jest project from scratch and I gave it a try refining some minor typos.
 4. Then I asked my friend to start a remote refactory in VSCode with LiveShare. We started to refactor from the tests to improve the readability of it and then we moved to an incremental code review to improve the source.
+
+This kata is still a working in progress...
