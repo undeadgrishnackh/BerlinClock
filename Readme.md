@@ -1,4 +1,8 @@
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2d1243372ea64ae7963cda30172c89d9)](https://www.codacy.com/manual/undeadgrishnackh/BerlinClock?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=undeadgrishnackh/BerlinClock&amp;utm_campaign=Badge_Grade) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=undeadgrishnackh_BerlinClock&metric=alert_status)](https://sonarcloud.io/dashboard?id=undeadgrishnackh_BerlinClock) [![Known Vulnerabilities](https://snyk.io/test/github/undeadgrishnackh/BerlinClock/badge.svg)](https://snyk.io/test/github/undeadgrishnackh/BerlinClock/) [![BCH compliance](https://bettercodehub.com/edge/badge/undeadgrishnackh/BerlinClock?branch=master)](https://bettercodehub.com/) [![CodeScene System Mastery](https://codescene.io/projects/8569/status-badges/system-mastery)](https://codescene.io/projects/8569)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2d1243372ea64ae7963cda30172c89d9)](https://www.codacy.com/manual/undeadgrishnackh/BerlinClock?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=undeadgrishnackh/BerlinClock&amp;utm_campaign=Badge_Grade) 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=undeadgrishnackh_BerlinClock&metric=alert_status)](https://sonarcloud.io/dashboard?id=undeadgrishnackh_BerlinClock) 
+[![Known Vulnerabilities](https://snyk.io/test/github/undeadgrishnackh/BerlinClock/badge.svg)](https://snyk.io/test/github/undeadgrishnackh/BerlinClock/) 
+[![BCH compliance](https://bettercodehub.com/edge/badge/undeadgrishnackh/BerlinClock?branch=master)](https://bettercodehub.com/) 
+[![CodeScene System Mastery](https://codescene.io/projects/8569/status-badges/system-mastery)](https://codescene.io/projects/8569)
 
 ## Berlin Clock Kata
 
