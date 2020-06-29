@@ -6,6 +6,8 @@
 
 [![CodeScene general](https://codescene.io/images/analyzed-by-codescene-badge.svg)](https://codescene.io/projects/8569)
 
+[![BCH compliance](https://bettercodehub.com/edge/badge/undeadgrishnackh/BerlinClock?branch=master)](https://bettercodehub.com/)
+
 ## Berlin Clock Kata
 
 This is a remote pair programming kata I did with a friend to spike on some new training and dojo techniques in this dark time under the COVID-19 time.
