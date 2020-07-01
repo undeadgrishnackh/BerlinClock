@@ -1,7 +1,12 @@
 ## Refactor
 ✅ - test for highlighting even & odds in second blinker - check the - line5
 ✅ - improve the extraction from the Berlin Clock string to understand what we're looking into the test.
-TODO: minutes lights: 2 extracts functions for the minutes, apply the seconds test pattern, update the desribe.
+✅ - minutes lights: 2 extracts functions for the minutes, apply the seconds test pattern
+   --> 1. update the desribe. 2. reduce the number of duplicated functions
+✅ - hours: refactor to the minutes test pattern; add 2 first row test 05:00:00, 20:00:00; update the describes;
+✅ - remove the duplication in expect*Row functions
+TODO: - seconds: chech if second is described as the top light
+TODO: - E2E: 
 TODO: - the code is messy and too function oriented
 
 

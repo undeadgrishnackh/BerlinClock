@@ -15,11 +15,11 @@ describe ("Guardian and edge cases to clean the input time", () => {
   });
 });
 
+const berlinClockRow = (berlinClockString, rowIndex) => berlinClockString.split("\n")[rowIndex];
+const expectRow = (berlinClockString, rowIndex, expectedRow) => expect(berlinClockRow(berlinClockString, rowIndex)).toEqual(expectedRow);
 
 describe ("Seconds Light - Higher light bulb. Switched ON by even seconds, OFF by odd seconds", () => {
-  function secondsLigth (berlinClockString) {
-    return berlinClockString.split("\n")[0]
-  }
+  const secondsLigth = (berlinClockString) => berlinClockRow(berlinClockString, 0);
     
   it ("Seconds light bulb should be ON at EVEN seconds time.", () => {
     expect(secondsLigth(berlinClock("00:00:00"))).toEqual("Y");
@@ -31,58 +31,59 @@ describe ("Seconds Light - Higher light bulb. Switched ON by even seconds, OFF b
 });
 
 describe ("Minutes lights - 5 to 55 minutes + 0 to 4 minutes", () => {
-  function firstMinuteRow (berlinClockString) {
-    return berlinClockString.split("\n")[3]
-  }
-
-  function secondMinuteRow (berlinClockString) {
-    return berlinClockString.split("\n")[4]
-  }
-
-  function expectMinutesLights (berlinClockString, expectedFirstRow, expectedSecondRow) {
-    expect(firstMinuteRow(berlinClockString)).toEqual(expectedFirstRow);
-    expect(secondMinuteRow(berlinClockString)).toEqual(expectedSecondRow);
-  }
-
     it("Expect the bottom row to be YOOO at 00:01:00", () => {
-      expectMinutesLights(berlinClock("00:01:00"),"OOOOOOOOOOO", "YOOO");
+      expectBottomRow(berlinClock("00:01:00"), "YOOO");
     });
 
     it("Expect the bottom row to be YYYY at 00:04:00", () => {
-      expectMinutesLights(berlinClock("00:04:00"),"OOOOOOOOOOO", "YYYY");
+      expectBottomRow(berlinClock("00:04:00"), "YYYY");
     });
 
-    it("Expect at 5 minutes to have on the first light on the 5 minutes row", () => {
-      expectMinutesLights(berlinClock("00:05:00"),"YOOOOOOOOOO", "OOOO");
+    it("Expect the third row to be YOOOOOOOOOO at 00:05:00", () => {
+      expectThirdRow(berlinClock("00:05:00"),"YOOOOOOOOOO");
     });
 
-    it("Expect at 15 minutes to have on the 2 Yellow light and 1 Red light on the 5 minutes row", () => {
-      expectMinutesLights(berlinClock("00:15:00"),"YYROOOOOOOO", "OOOO");
+    it("Expect the third row to be YYRYYRYYRYY at 00:55:00", () => {
+      expectThirdRow(berlinClock("00:55:00"), "YYRYYRYYRYY");
     });
 
-    it("Expect at 20 minutes to have on the 3 Yellow light and 1 Red light on the 5 minutes row", () => {
-      expectMinutesLights(berlinClock("00:20:00"),"YYRYOOOOOOO", "OOOO");
+    it("Expect the third row to be YYRYYRYYRYO and the bottom row to be YYOO at 00:52:00", () => {
+      expectMinutesLights(berlinClock("00:52:00"), "YYRYYRYYRYO", "YYOO");
     });
-
-    it("Expect at 30 minutes to have on the 3 Yellow light and 1 Red light on the 5 minutes row", () => {
-      expectMinutesLights(berlinClock("00:30:00"),"YYRYYROOOOO", "OOOO");
-    });
-
-    it("Expect to have YYRYYRYYRYO as the 3th and YYOO as the bottom row lights at 52 minutes on the clock", () => {
-      expectMinutesLights(berlinClock("00:52:00"),"YYRYYRYYRYO", "YYOO");
-    });
+  
+    function expectMinutesLights (berlinClockString, expectedThirdRow, expectedBottomRow) {
+      expectBottomRow(berlinClockString, expectedBottomRow);
+      expectThirdRow(berlinClockString, expectedThirdRow);
+    }
+  
+    const expectBottomRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 4, expectedLights);
+    const expectThirdRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 3, expectedLights);   
 })
 
 describe ("Hours lights", () => {
-  it("Expect 1 hour light is ON at 01:00:00", () => {
-    expect(berlinClock("01:00:00")).toEqual("Y\nOOOO\nROOO\nOOOOOOOOOOO\nOOOO");
+  it("Expect the second row to be ROOO at 01:00:00", () => {
+    expectSecondRow(berlinClock("01:00:00"), "ROOO");
   });
-  it("Expect 4 hour light is ON at 04:00:00", () => {
-    expect(berlinClock("04:00:00")).toEqual("Y\nOOOO\nRRRR\nOOOOOOOOOOO\nOOOO");
+  it("Expect the second row to be RRRR at 04:00:00", () => {
+    expectSecondRow(berlinClock("04:00:00"), "RRRR");
   });
-  it("Expect 4 fivehour lights and 3 hour lights is ON at 23:00:00", () => {
-    expect(berlinClock("23:00:00")).toEqual("Y\nRRRR\nRRRO\nOOOOOOOOOOO\nOOOO");
+  it("Expect the top row to be ROOO at 05:00:00", () => {
+    expectTopRow(berlinClock("05:00:00"), "ROOO");
   });
+  it("Expect the top row to be RRRR at 20:00:00", () => {
+    expectTopRow(berlinClock("20:00:00"), "RRRR");
+  });
+  it("Expect the top row to be RRRR and the second row to be RRRO at 23:00:00", () => {
+    expectHoursLight(berlinClock("23:00:00"), 'RRRR', 'RRRO');
+  });
+
+  function expectHoursLight (berlinClockString, expectedTopRow, expectedSecondRow) {
+    expectTopRow (berlinClockString, expectedTopRow);
+    expectSecondRow (berlinClockString, expectedSecondRow);
+  }
+
+  const expectTopRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 1, expectedLights);
+  const expectSecondRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 2, expectedLights);
 })
 
 describe ("Random time", () => {
