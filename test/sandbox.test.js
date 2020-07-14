@@ -1,27 +1,12 @@
 let { berlinClock } = require('../src/sandbox');
 
-describe ("Guardian and edge cases to clean the input time", () => {
-  it ("Expect error on undefined", () => {
-    expect(berlinClock(undefined)).toEqual( "error");
-  });
-  it ("Expect error on empty string", () => {
-    expect(berlinClock("")).toEqual( "error");
-  });
-  it ("Clock FORMAT shoud be like 'hh:mm:ss', otherwise raises an error", () => {
-    expect(berlinClock("asda")).toEqual( "error");
-  });
-  it ("Clock TIME range shoud be between '00:00:00' and '23:59:59', otherwise raises an error", () => {
-    expect(berlinClock("24:61:78")).toEqual( "error");
-  });
-});
-
 const berlinClockRow = (berlinClockString, rowIndex) => berlinClockString.split("\n")[rowIndex];
 const expectRow = (berlinClockString, rowIndex, expectedRow) => expect(berlinClockRow(berlinClockString, rowIndex)).toEqual(expectedRow);
 
-describe ("Seconds Light - Higher light bulb. Switched ON by even seconds, OFF by odd seconds", () => {
+describe ("Round yellow light blinks on seconds", () => {
   const secondsLigth = (berlinClockString) => berlinClockRow(berlinClockString, 0);
     
-  it ("Seconds light bulb should be ON at EVEN seconds time.", () => {
+  it ("Expect ON at EVEN seconds time.", () => {
     expect(secondsLigth(berlinClock("00:00:00"))).toEqual("Y");
   });
 
@@ -30,7 +15,7 @@ describe ("Seconds Light - Higher light bulb. Switched ON by even seconds, OFF b
   });
 });
 
-describe ("Minutes lights - 5 to 55 minutes + 0 to 4 minutes", () => {
+describe ("Minutes lights rows", () => {
     it("Expect the bottom row to be YOOO at 00:01:00", () => {
       expectBottomRow(berlinClock("00:01:00"), "YOOO");
     });
@@ -60,7 +45,7 @@ describe ("Minutes lights - 5 to 55 minutes + 0 to 4 minutes", () => {
     const expectThirdRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 3, expectedLights);   
 })
 
-describe ("Hours lights", () => {
+describe ("Hours lights rows", () => {
   it("Expect the second row to be ROOO at 01:00:00", () => {
     expectSecondRow(berlinClock("01:00:00"), "ROOO");
   });
@@ -86,9 +71,23 @@ describe ("Hours lights", () => {
   const expectSecondRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 2, expectedLights);
 })
 
-describe ("Random time", () => {
-  it("Expect the clock is working for random time", () => {
+describe ("Guardian and edge cases to clean the input time", () => {
+  it ("Expect error on undefined", () => {
+    expect(berlinClock(undefined)).toEqual( "error");
+  });
+  it ("Expect error on empty string", () => {
+    expect(berlinClock("")).toEqual( "error");
+  });
+  it ("Clock FORMAT shoud be like 'hh:mm:ss', otherwise raises an error", () => {
+    expect(berlinClock("asda")).toEqual( "error");
+  });
+  it ("Clock TIME range shoud be between '00:00:00' and '23:59:59', otherwise raises an error", () => {
+    expect(berlinClock("24:61:78")).toEqual( "error");
+  });
+});
+
+describe ("E2E - Berlin clock lights as observed by someone on the square", () => {
+  it("Expect the clock is displaying top-down: O, RRRR, RROO, YYRYYROOOOO and YYOO at 22:32:45", () => {
     expect(berlinClock("22:32:45")).toEqual("O\nRRRR\nRROO\nYYRYYROOOOO\nYYOO");
   });  
 })
-
