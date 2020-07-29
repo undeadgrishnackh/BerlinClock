@@ -2,16 +2,18 @@ const VALID_TIME_PATTERN = new RegExp('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:
 
 function berlinClock (time) {
   if (VALID_TIME_PATTERN.test(time)) {
-    const sec = getSeconds(time);
+    const seconds = getSeconds(time);
     const minutes = getMinutes(time);
     const hours = getHours(time);
+    const berlinClock = new BerlinClock(seconds, hours);
+
     return [
-      renderSeconds(sec),
-      renderTopRow(hours),
-      renderSecondRow(hours),
+      berlinClock.getRoundLightOnTop(),
+      berlinClock.getTopRow(),
+      berlinClock.getSecondRow(),
       renderThirdRow(minutes),
       renderBottomRow(minutes)
-    ].join("\n");
+    ].join("\n");  // return berlinClock.getLights();
   }
   return 'error';
 }
@@ -26,11 +28,8 @@ const RED_LIGHT    = 'R';
 const YELLOW_LIGHT = 'Y';
 const OFF_LIGHT    = 'O';
 
-const isEven = (number) => ( number % 2 === 0);
-const renderSeconds = (sec) => isEven(sec) ?  YELLOW_LIGHT : OFF_LIGHT;
-
 const numberOfLightOfTheBottomRow = 4;
-const numberOfLightOfTheSecondRow = 4;
+
 
 const renderBottomRow = (minutes) => {
   const numberOfLights = numberOfLightOfTheBottomRow; //TODO: maybe extract it into global to see the composition of the clock
@@ -53,24 +52,45 @@ const changeQuarterLightsToRed = (thirdRowLights) => {
     .join("");
 }
 
-const renderSecondRow = (hours) => {
-  return renderRow(
-    numberOfLightOfTheSecondRow,
-    hours % (numberOfLightOfTheSecondRow + 1),
-    RED_LIGHT
-  );  
-}
-
-const renderTopRow = (hours) => {
-  return renderRow(
-    4, 
-    Math.floor(hours / (numberOfLightOfTheSecondRow + 1)), 
-    RED_LIGHT
-  );  
-}
-
+//TODO: we missed to use this method into the minutes component... let it here and go for further invesdtigation later
 const renderRow = (numberOfLights, numberOfLightsOn, color) => {
   return color.repeat(numberOfLightsOn) + OFF_LIGHT.repeat(numberOfLights - numberOfLightsOn);  
+}
+
+
+
+//class BerlinClock
+class BerlinClock {
+    //---INIT
+    constructor(seconds, hours, mins) {
+      this.seconds = seconds;
+      this.hours   = hours;    
+    }
+
+    //---SECONDS
+    isEven = (number) => ( number % 2 === 0);
+    getRoundLightOnTop() {
+      return this.isEven(this.seconds) ?  YELLOW_LIGHT : OFF_LIGHT; //TODO: bring these constants inside the class
+    }
+
+    //--- HOURS
+    numberOfLightOfTheSecondRow = 4;
+    
+    getTopRow() {
+      return renderRow(
+        4, 
+        Math.floor(this.hours / (this.numberOfLightOfTheSecondRow + 1)), 
+        RED_LIGHT
+      );
+    }
+
+    getSecondRow() {
+      return renderRow(
+        this.numberOfLightOfTheSecondRow,
+        this.hours % (this.numberOfLightOfTheSecondRow + 1),
+        RED_LIGHT
+      );  
+    }
 }
 
 module.exports.berlinClock = berlinClock;

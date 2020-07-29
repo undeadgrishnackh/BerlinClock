@@ -3,17 +3,48 @@ let { berlinClock } = require('../src/sandbox');
 const berlinClockRow = (berlinClockString, rowIndex) => berlinClockString.split("\n")[rowIndex];
 const expectRow = (berlinClockString, rowIndex, expectedRow) => expect(berlinClockRow(berlinClockString, rowIndex)).toEqual(expectedRow);
 
-describe ("Round yellow light blinks on seconds", () => {
+describe ("Round yellow light on top blinks on seconds", () => {
   const secondsLigth = (berlinClockString) => berlinClockRow(berlinClockString, 0);
     
-  it ("Expect ON at EVEN seconds time.", () => {
+  it ("Expect lit (ON) at EVEN seconds time.", () => {
     expect(secondsLigth(berlinClock("00:00:00"))).toEqual("Y");
   });
 
-  it ("Expect OFF at ODD seconds time.", () => {
+  it ("Expect unlit (OFF) at ODD seconds time.", () => {
     expect(secondsLigth(berlinClock("00:00:01"))).toEqual("O");
   });
 });
+
+describe ("The top and second rows displaying the hour value in 24-hour format.", () => {
+  describe ("The top row of four red fields denotes five full hours each.", () => {
+    it("Expect the top row to be ROOO at 05:00:00", () => {
+      expectTopRow(berlinClock("05:00:00"), "ROOO");
+    });
+    it("Expect the top row to be RRRR at 20:00:00", () => {
+      expectTopRow(berlinClock("20:00:00"), "RRRR");
+    });
+    it("Expect the top row to be RRRR and the second row to be RRRO at 23:00:00", () => {
+      expectHoursLight(berlinClock("23:00:00"), 'RRRR', 'RRRO');
+    });
+  });
+
+  describe ("The second row of four red fields denotes one full hour each.", () => {
+    it("Expect the second row to be ROOO at 01:00:00", () => {
+      expectSecondRow(berlinClock("01:00:00"), "ROOO");
+    });
+    it("Expect the second row to be RRRR at 04:00:00", () => {
+      expectSecondRow(berlinClock("04:00:00"), "RRRR");
+    });
+  });
+  
+  function expectHoursLight (berlinClockString, expectedTopRow, expectedSecondRow) {
+    expectTopRow (berlinClockString, expectedTopRow);
+    expectSecondRow (berlinClockString, expectedSecondRow);
+  }
+
+  const expectTopRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 1, expectedLights);
+  const expectSecondRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 2, expectedLights);
+})
 
 describe ("Minutes lights rows", () => {
     it("Expect the bottom row to be YOOO at 00:01:00", () => {
@@ -45,31 +76,6 @@ describe ("Minutes lights rows", () => {
     const expectThirdRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 3, expectedLights);   
 })
 
-describe ("Hours lights rows", () => {
-  it("Expect the second row to be ROOO at 01:00:00", () => {
-    expectSecondRow(berlinClock("01:00:00"), "ROOO");
-  });
-  it("Expect the second row to be RRRR at 04:00:00", () => {
-    expectSecondRow(berlinClock("04:00:00"), "RRRR");
-  });
-  it("Expect the top row to be ROOO at 05:00:00", () => {
-    expectTopRow(berlinClock("05:00:00"), "ROOO");
-  });
-  it("Expect the top row to be RRRR at 20:00:00", () => {
-    expectTopRow(berlinClock("20:00:00"), "RRRR");
-  });
-  it("Expect the top row to be RRRR and the second row to be RRRO at 23:00:00", () => {
-    expectHoursLight(berlinClock("23:00:00"), 'RRRR', 'RRRO');
-  });
-
-  function expectHoursLight (berlinClockString, expectedTopRow, expectedSecondRow) {
-    expectTopRow (berlinClockString, expectedTopRow);
-    expectSecondRow (berlinClockString, expectedSecondRow);
-  }
-
-  const expectTopRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 1, expectedLights);
-  const expectSecondRow = (berlinClockString, expectedLights) => expectRow(berlinClockString, 2, expectedLights);
-})
 
 describe ("Guardian and edge cases to clean the input time", () => {
   it ("Expect error on undefined", () => {
