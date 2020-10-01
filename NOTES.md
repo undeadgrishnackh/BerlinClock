@@ -20,15 +20,26 @@
 ✅ - sec & hours tests have to be enhanced with the DDD desc.
 ✅ - top and second rows are shuffled into the tests
 ✅ - try to create a BerlinClock class that take care to render ✅ sec, ✅ hours, ✅ mins starting from sec.
-
-TODO:  
- - ParsedTime 
+  
+- ParsedTime 
   ✅ - remove duplication in methods (splitting)
-  TODO: - extract it into a time class with the regexp validator as splitter
- - Clock
-  ❓- extract every row in a specific class
-  ❓- the clock is a Matryoshka composition of seconds, hours, minutes and every component is itself a row. 
+  ✅ - extract it into a time class with the regexp validator as a splitter
+  ✅ the exception branch is uncovered. line 20. 
+        🧪 experiment: is possible to exclude lines from the jest coverage with:
+        --> /* istanbul ignore else */
+        --> /* istanbul ignore next */
+  ✅ - DRY refactor and description to improve
+  ✅ - Improve the tests with parametrize suite.
 
+ - Clock
+  - move BerlinClock to own file
+  ❓- extract every row in a specific class
+  TODO: continue the seconds module appraoch to hours and minutes
+        . Target: preserve the domain and then polish the code for DRY and SOLID smells.
+        . uncoverege to fix!
+  ❓- the clock is a Matryoshka composition of seconds, hours, minutes and every component is itself a row. 
+- Install Linter into the project
+  - 
 
 
 ## Refactoring of the test suites in a more DDD compliant language:
