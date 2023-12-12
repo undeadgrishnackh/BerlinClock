@@ -1,0 +1,31 @@
+name: Auto Merge Dependabot PRs
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if it's Dependabot's PR
+        run: |
+          if [[ "${{ github.actor }}" != "dependabot[bot]" ]]; then
+            echo "Not a Dependabot PR, skipping auto-merge..."
+            exit 0
+          fi
+      - name: Setup auto merge action
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor, patch
+          github-token: ${{ secrets.DEPENDENTBOT }}
+      - name: Delete branch after merge
+        if: ${{ success() }}
+        run: |
+          echo "Deleting branch..."
+          curl -X DELETE \
+            -H "Authorization: Bearer ${{ secrets.DEPENDENTBOT }}" \
+            https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }}
